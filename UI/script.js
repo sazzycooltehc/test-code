@@ -7,7 +7,16 @@ setInterval(function () {
 }, 1000);
 
 function calculateArea() {
-  area = parseInt(document.getElementById('len').value)*parseInt(document.getElementById('wid').value);
-  document.getElementById('areaRec').innerHTML = area;
-  console.log(area);
+  function rectangle() {
+    area = parseInt(document.getElementById('len').value)*parseInt(document.getElementById('wid').value);
+    document.getElementById('areaRec').innerHTML = "Area of the Rectangle is: "+area;
+    console.log(area);
+  }
+  rectangle();
+  function triangleRight() {
+    area = parseInt(document.getElementById('len').value)*parseInt(document.getElementById('wid').value)*0.5;
+    document.getElementById('areaTri').innerHTML = "Area of the Triangle is: "+area;
+    console.log(area);
+  }
+  triangleRight();
 }
