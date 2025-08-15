@@ -20,3 +20,14 @@ function calculateArea() {
   }
   triangleRight();
 }
+
+function maxSum(nums) {
+  let sum = 0;
+  let nl = []
+  let unique = [...new Set(nums)].sort((a, b) => b - a);
+  for (let i=0; i<=unique.length; i++) {
+      sum+=i;
+      nl.push(sum);
+  }
+  return Math.max(...nl);
+}

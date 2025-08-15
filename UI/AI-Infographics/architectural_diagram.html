@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Identity Validation System Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .component-card {
+            @apply bg-white p-6 rounded-xl shadow-lg border-l-4;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .component-card:hover {
+            transform: translateY(-5px);
+        }
+        .flow-arrow-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 4rem;
+            position: relative;
+        }
+        .flow-arrow-down .arrow-head {
+            font-size: 2.5rem;
+            color: #00A6FB;
+            animation: pulse-down 1.5s infinite;
+        }
+        .flow-arrow-down .arrow-label {
+            @apply text-xs font-semibold text-gray-500 absolute -bottom-1;
+        }
+        .flow-arrow-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .flow-arrow-right .arrow-head {
+            font-size: 2.5rem;
+            color: #00A6FB;
+            animation: pulse-right 1.5s infinite;
+        }
+        .flow-arrow-right .arrow-label {
+            @apply text-xs font-semibold text-gray-500 absolute -top-1;
+        }
+        .flow-return-up {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 4rem;
+            position: relative;
+        }
+        .flow-return-up .arrow-head {
+            font-size: 2.5rem;
+            color: #0582CA;
+            animation: return-pulse-up 1.5s infinite;
+        }
+        .flow-return-up .arrow-label {
+            @apply text-xs font-semibold text-gray-500 absolute -top-1;
+        }
+        .section-header {
+            @apply text-xl font-bold mb-2 text-[#003554];
+        }
+        @keyframes pulse-down {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+            }
+            50% {
+                transform: scale(1.1) translateY(10px);
+            }
+        }
+        @keyframes pulse-right {
+            0%, 100% {
+                transform: scale(1) translateX(0);
+            }
+            50% {
+                transform: scale(1.1) translateX(10px);
+            }
+        }
+        @keyframes return-pulse-up {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+            }
+            50% {
+                transform: scale(1.1) translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <header class="text-center py-12">
+            <h1 class="text-4xl md:text-5xl font-black text-[#003554] tracking-tight">Technical Architectural Diagram: Data Flow</h1>
+            <p class="mt-4 text-lg md:text-xl text-[#0582CA] max-w-4xl mx-auto">A visual representation of the AI validation system, detailing the flow of data between key components.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Main Data Flow -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Data Ingestion -->
+                <div class="component-card border-[#00A6FB] animate-pulse">
+                    <div class="flex items-center mb-2">
+                        <div class="text-3xl mr-3">📱💻</div>
+                        <h2 class="section-header">1. Data Ingestion Layer</h2>
+                    </div>
+                    <p class="text-sm text-gray-600">Client-side application securely captures user data.</p>
+                    <div class="mt-2 text-xs text-gray-500">
+                        <span class="font-semibold">Payload:</span> `userId`, `sessionId`, `documentImage`, `selfieImage`
+                    </div>
+                </div>
+
+                <!-- Arrow 1: To API Gateway -->
+                <div class="flow-arrow-down">
+                    <div class="arrow-label">`POST /v1/validate/identity`</div>
+                    <div class="arrow-head">↓</div>
+                </div>
+                
+                <!-- API Gateway -->
+                <div class="component-card border-[#0582CA]">
+                    <div class="flex items-center mb-2">
+                        <div class="text-3xl mr-3">🏢</div>
+                        <h2 class="section-header">2. API Gateway</h2>
+                    </div>
+                    <p class="text-sm text-gray-600">Validates JWT and routes the payload to the orchestration service.</p>
+                    <div class="mt-2 text-xs text-gray-500">
+                        <span class="font-semibold">Functionality:</span> Auth, Decryption, Routing
+                    </div>
+                </div>
+
+                <!-- Arrow 2: To Backend Services -->
+                <div class="flow-arrow-down">
+                    <div class="arrow-label">Request to `validation-orchestrator-service`</div>
+                    <div class="arrow-head">↓</div>
+                </div>
+
+                <!-- Backend Services -->
+                <div class="component-card border-[#006494]">
+                    <div class="flex items-center mb-2">
+                        <div class="text-3xl mr-3">⚙️</div>
+                        <h2 class="section-header">3. Backend Services</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Orchestrates the validation workflow and manages state in the database.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-center font-semibold">
+                        <div class="bg-gray-100 p-2 rounded-lg">User Service</div>
+                        <div class="bg-gray-100 p-2 rounded-lg">Validation Service</div>
+                        <div class="bg-gray-100 p-2 rounded-lg">Database</div>
+                    </div>
+                </div>
+                
+                <!-- Arrow 3: To AI/ML Models -->
+                <div class="flow-arrow-down">
+                    <div class="arrow-label">API Calls to Models</div>
+                    <div class="arrow-head">↓</div>
+                </div>
+
+                <!-- AI/ML Models -->
+                <div class="component-card border-[#14213d]">
+                    <div class="flex items-center mb-2">
+                        <div class="text-3xl mr-3">🧠</div>
+                        <h2 class="section-header">4. AI/ML Model Layer</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Containerized microservices for core AI tasks.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 text-sm text-center font-semibold">
+                        <div class="bg-gray-100 p-2 rounded-lg">Document OCR Model</div>
+                        <div class="bg-gray-100 p-2 rounded-lg">Face Verification Model</div>
+                        <div class="bg-gray-100 p-2 rounded-lg">Liveness Detection Model</div>
+                    </div>
+                </div>
+                
+                <!-- Return Arrow -->
+                <div class="flow-return-up mt-6">
+                    <div class="arrow-label">Validation Result (`status: SUCCESS/FAILED`)</div>
+                    <div class="arrow-head">↑</div>
+                </div>
+                
+                <!-- Description for Return Flow -->
+                <div class="text-center text-gray-500 text-sm">The final validation result is sent back to the frontend application.</div>
+
+            </div>
+
+            <!-- Supporting Layers -->
+            <div class="space-y-8 flex flex-col justify-start lg:col-span-1">
+                <!-- CI/CD -->
+                <div class="component-card border-[#FCA311]">
+                    <div class="flex items-center mb-2">
+                        <div class="text-3xl mr-3">⚙️</div>
+                        <h2 class="section-header">CI/CD Pipeline</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Automated pipeline for building, testing, and deploying code.</p>
+                    <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                        <li>**Trigger:** `git push`</li>
+                        <li>**Workflow:** Build → Test → Deploy</li>
+                        <li>**Tools:** GitHub Actions, Docker, Kubernetes</li>
+                    </ul>
+                </div>
+                <!-- Security & Monitoring -->
+                <div class="component-card border-[#006494]">
+                    <div class="flex items-center mb-2">
+                        <div class="text-3xl mr-3">🛡️</div>
+                        <h2 class="section-header">Security & Monitoring</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Continuous oversight of system health and security.</p>
+                    <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
+                        <li>**Components:** Vulnerability Scanning, APM, MLOps Monitoring</li>
+                        <li>**Tools:** Snyk AI, Semgrep, Prometheus, Grafana, MLflow</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
